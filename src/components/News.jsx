@@ -10,10 +10,16 @@ const {Option} = Select;
 const News = ({ simplified }) => {
   const [newsCategory, setNewsCategory] = useState('Cryptocurrency');
 
-  const { data : cryptoNews } = useGetCryptoNewsQuery({newsCategory : 'Cryptocurrency' , count : simplified ? 6 : 12});
+  console.log(newsCategory);
+  const res = useGetCryptoNewsQuery(newsCategory);
   const { data } = useGetCryptosQuery(100);
 
-  if(!cryptoNews?.value) return 'Loading...';
+  const cryptoNews = res?.data?.articles;
+
+  console.log(res);
+  console.log(cryptoNews);
+
+  if(res?.isLoading) return 'Loading...';
 
   // console.log(cryptoNews.value);
   const demoImage = "https://st1.bgr.in/wp-content/uploads/2022/02/Infinix-Zero-5G.jpg";
@@ -35,23 +41,18 @@ const News = ({ simplified }) => {
            </Select>
         </Col>
       )}
-       {cryptoNews?.value.map((news,i) => (
+       {cryptoNews?.map((news,i) => (
          <Col xs = {24} sm = {12} lg ={8} key = {i}>
-            <Card hoverable className = "news-card" 
-              style = {{ borderRadius : 22}}
-              cover = {  <img src = {news?.image?.thumbnail?.contentUrl || demoImage} style = {{height : 250 , borderTopRightRadius : 20 , borderTopLeftRadius : 20}}/>}
-              >  
+            <Card hoverable className = "news-card"  style = {{ borderRadius : 22}} >  
               <a href = {news?.url} target = "_blank" rel = "noreferrer">
                  <div className='news-image-container'>
-                     <Title className = "news-title" level={4}>{news?.name}</Title>
+                     <Title className = "news-title" level={4}>{news?.title}</Title>
                  </div>
-                 <p>{news.description > 100 ? `${news.description.substring(0,100)}...` : news.description}</p>
                  <div className = "provider-container">
                    <div>
-                     <Avatar src = {news?.image?.thumbnail?.contentUrl || demoImage} alt = "news"/>
-                     <Text className = "provider-name">{news.provider[0].name}</Text>
+                     <Text className = "provider-name">{news.publisher.name}</Text>
                    </div>
-                   <Text> {moment(news.datePublished).startOf('ss').fromNow()}</Text>
+                   <Text> {moment(news.published_date).startOf('ss').fromNow()}</Text>
                  </div>
               </a>
             </Card>

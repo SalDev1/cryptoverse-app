@@ -298,7 +298,7 @@ padding: 0px 20px;
   justify-content: space-between !important;
 }
 .news-title{
-width: 70%;
+width: 90%;
 }
 
 .news-image-container .img{
@@ -310,11 +310,12 @@ width: 70%;
   margin: 10px 0px !important;
 }
 .provider-container{
+  margin-top : 30px;
   display: flex;
   justify-content: space-between;
 }
 .provider-name{
-  margin-left: 10px;
+  margin : 0px;
 }
 
 .chart-header{
